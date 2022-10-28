@@ -1,0 +1,109 @@
+sudo su
+
+yum update -y
+
+wget https://packages.chef.io/files/stable/chef-workstation/22.10.1013/el/7/chef-workstation-22.10.1013-1.el7.x86_64.rpm 
+
+yum install chef* -y
+
+which chef
+
+chef -v
+
+mkdir cookbooks
+
+cd cookbooks
+
+chef generate cookbook test-cookbook
+
+cd test-cookbook
+
+chef generate recipe test-recipe
+
+cd ..
+
+vi test-cookbook/recipes/test-recipe.rb
+
+edit the script-------->>>>>>
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+chef exec ruby -c test-cookbook/recipes/test-recipe.rb
+
+chef-client -zr "recipe[test-cookbook::test-recipe]"
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+include_recipe "test-cookbook::test-recipe" --> default recipe
+
+this runs all the recipes at a time !!
+
+include_recipe "[apache-cookbook::apache-recipe]"
+include_recipe "[apache-cookbook::apache-recipe1]"
+include_recipe "[apache-cookbook::apache-recipe2]"
+
+----------------------------------------------------------------------------------------------------------------------
+
+1)Open a chef account in manage.chef.io & create an organisation
+
+2)download chef-smartkit into you system
+
+3)import the chef-startkit into aws(ec2) via filezilla/winscp ,
+
+4)make sure you import pem key file of the nodes(which you want to add to chef) as well
+
+----------------------------------------------------------------------------------------------------------------------
+
+knife ssl check --> to establish connection to workstation & chef server
+
+-----------------------------------------------------------------------------------------------------------------------
+aws--EC2--Advance option
+
+#!/bin/bash
+sudo su
+yum update -y
+
+-----------------------------------------------------------------------------------------------------------------------
+
+bootstrap-->command 
+
+knife bootstrap 13.233.212.191 --ssh-user ec2-user --sudo -i pariksha001.pem -N node1
+
+------------------------------------------------------------------------------------------------------------------------
+
+knife node list
+
+knife node delete node1
+
+knife cookbook upload test-cookbook
+
+knife cookbook list
+
+--------------------------------------------------------------------------------------------------------------------------
+
+knife node run_list set node1 "recipe[apache-cookbook::apache-recipe]"
+
+To add the recipe to node runlist
+
+---------------------------------------------------------------------------------------------------------------------------
+
+aws--EC2
+
+echo "* * * * * root chef-client" >> /etc/crontab 
+
+to automate the chef-client
+
+----------------------------------------------------------------------------------------------------------------------------
+
+aws--EC2--Advance option
+
+#!/bin/bash
+sudo su
+yum update -y
+echo "* * * * * root chef-client" >> /etc/crontab
+
+when launching the (Instances-EC2) to automate the chef fully !!
+
+-----------------------------------------------------------------------------------------------------------------------------

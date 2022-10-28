@@ -1,0 +1,114 @@
+file '/home/ec2-user/File' do
+content 'First Project Code File On Chef Using Ruby Script'
+action :create
+end
+
+***
+
+
+package 'tree' do
+action :install
+end
+
+file '/home/ec2-user/File1' do
+content 'Second Project Code File On Chef Using Ruby Script'
+action :create
+owner 'root'
+group 'root'
+end
+
+***
+package 'httpd' do
+action :install
+end
+
+file '/var/www/html/index.html' do
+content 'I Love Devops Chef Automation Tool'
+action :create
+end
+
+
+service 'httpd' do
+action [:enable, :start]
+end
+
+****
+
+execute "run a script with linux commands" do
+command <<-EOH
+yum update -y
+mkdir /home/ec2-user/thanu
+touch /home/ec2-user/thanu/shivam
+EOH
+end
+
+****
+
+file '/home/ec2-user/thanu/1xr' do
+content 'this is my own code'
+action :create
+end
+
+****
+
+execute "run a script with linux commands" do
+command <<-EOH
+yum update -y
+mkdir /home/ec2-user/madhu
+touch /home/ec2-user/madhu/shiv
+EOH
+end
+
+file '/home/ec2-user/madhu/paru' do
+content 'this is my own code'
+action :create
+end
+
+user "thanu"
+file "moon"
+
+***
+
+file '/home/ec2-user/basicinfo' do
+ content "This is to get Attributes
+ HOSTNAME: #{node['hostname']}
+ IPADDRESS: #{node['ipaddress']}
+ CPU: #{node['cpu']['0']['mhz']}
+ MEMORY: #{node['memory']['total']}"
+ owner 'root'
+ group 'root'
+action :create
+end
+
+***
+
+execute " running a linux script" do
+command <<-EOH
+mkdir /home/ec2-user/manoj
+EOH
+end
+
+user "pavan" do
+action :create
+end
+
+group "devops" do
+action :create
+members "pavan"
+append true
+end
+
+***
+execute "run a script with linux commands" do
+command <<-EOH
+yum update -y
+rm -rf /home/ec2-user/File
+rm -rf /home/ec2-user/File1
+rm -rf /home/ec2-user/madhu
+rm -rf /home/ec2-user/manoj
+rm -rf /home/ec2-user/thanu
+userdel pavan
+groupdel devops
+EOH
+end
+
